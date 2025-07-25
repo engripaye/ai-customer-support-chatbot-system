@@ -2,8 +2,7 @@ package org.engripaye.aicustomersupportchatbotdashboard.model;
 
 import jakarta.persistence.Id;
 import lombok.Data;
-
-import java.lang.annotation.Documented;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "chat_logs")
 @Data
