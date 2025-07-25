@@ -1,3 +1,5 @@
+# The AI Customer Support Chatbot Dashboard
+
 🔥 Project Overview
 The AI Customer Support Chatbot Dashboard is a web application that allows customers to interact with an AI-powered chatbot for support queries (e.g., FAQs, order status, refunds) and provides an admin dashboard for support managers to monitor chats, manage FAQ data, and view analytics. The application is secure, scalable, and deployable to modern cloud environments.
 
@@ -49,6 +51,8 @@ Collapse
 Wrap
 
 Copy
+
+
 ai-customer-support-chatbot/
 ├── backend/
 │   ├── src/
