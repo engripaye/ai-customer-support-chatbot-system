@@ -54,4 +54,5 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/api/**", config);
         return new CorsFilter(source);
     }
+
 }
