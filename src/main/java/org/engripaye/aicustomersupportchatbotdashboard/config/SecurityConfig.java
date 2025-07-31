@@ -18,10 +18,13 @@ public class SecurityConfig {
         http
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("http://localhost:3000")); // ✅ React origin
+                    config.setAllowedOrigins(List.of(
+                            "http://localhost:3000",
+                            "https://your-frontend.onrender.com" // ✅ Add Render frontend domain
+                    ));
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                     config.setAllowedHeaders(List.of("*"));
-                    config.setAllowCredentials(true); // ✅ Required for cookies/session
+                    config.setAllowCredentials(true);
                     return config;
                 }))
                 .csrf(csrf -> csrf.disable())
@@ -32,8 +35,7 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        // ✅ Redirect to your frontend after successful login
-                        .defaultSuccessUrl("http://localhost:3000/oauth-success", true)
+                        .defaultSuccessUrl("https://your-frontend.onrender.com/oauth-success", true)
                 );
 
         return http.build();
