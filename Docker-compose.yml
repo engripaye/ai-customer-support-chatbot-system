@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  spring-ai-app:
+    build: .
+    container_name: spring-ai-app
+    ports:
+      - "9090:9090"  # Maps container's port 9090 to your localhost
+    environment:
+      DB_URL: jdbc:mysql://mysql-db:3306/users_db
+      DB_USERNAME: root
+      DB_PASSWORD: 1234567
+      MONGO_URI: mongodb://mongo-db:27017/chatbot
+      OPENROUTER_API_KEY: your_openrouter_api_key
+      GOOGLE_CLIENT_ID: your_google_client_id
+      GOOGLE_CLIENT_SECRET: your_google_client_secret
+    depends_on:
+      - mysql-db
+      - mongo-db
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234567
+      MYSQL_DATABASE: users_db
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  mongo-db:
+    image: mongo:5.0
+    container_name: mongo-db
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mysql_data:
+  mongo_data:

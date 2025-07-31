@@ -1,14 +1,29 @@
-# Use Java 21 base image
+# ========================
+# Stage 1: Build the JAR
+# ========================
+FROM eclipse-temurin:21-jdk as builder
+
+WORKDIR /app
+
+# Copy source code
+COPY . .
+
+# Install Maven and build the project
+RUN apt-get update && apt-get install -y maven \
+    && mvn clean package -DskipTests
+
+# ==========================
+# Stage 2: Run the JAR
+# ==========================
 FROM eclipse-temurin:21-jdk
 
-# Set build ARG
-ARG JAR_FILE=target/ai-customer-support-chatbot-dashboard-0.0.1-SNAPSHOT.jar
+WORKDIR /app
 
-# Copy the JAR into the image
-COPY ${JAR_FILE} app.jar
+# Copy the built jar from stage 1
+COPY --from=builder /app/target/ai-customer-support-chatbot-dashboard-0.0.1-SNAPSHOT.jar app.jar
 
-# Expose the correct port (optional)
+# Expose port
 EXPOSE 9090
 
-# Run the app
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
