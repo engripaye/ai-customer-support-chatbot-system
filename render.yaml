@@ -6,16 +6,16 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: DB_URL
-        value: jdbc:mysql://<your-mysql-host>:3306/users_db
+        value: jdbc:postgresql://<your-postgres-host>:5432/users_db
       - key: DB_USERNAME
-        value: <your-mysql-username>
+        value: <your-postgres-username>
       - key: DB_PASSWORD
-        value: <your-mysql-password>
+        value: <your-postgres-password>
+      - key: MONGO_URI
+        value: mongodb+srv://<your-mongodb-uri>
       - key: OPENROUTER_API_KEY
         value: <your-openrouter-api-key>
       - key: GOOGLE_CLIENT_ID
         value: <your-google-client-id>
       - key: GOOGLE_CLIENT_SECRET
         value: <your-google-client-secret>
-      - key: MONGO_URI
-        value: mongodb+srv://<your-mongo-connection-uri>  # optional

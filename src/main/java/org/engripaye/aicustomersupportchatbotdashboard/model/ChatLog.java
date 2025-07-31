@@ -1,15 +1,17 @@
 package org.engripaye.aicustomersupportchatbotdashboard.model;
 
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "chat_logs")
+@Entity
+@Table(name = "chat_logs")
 @Data
 public class ChatLog {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String userId;
     private String message;
     private String response;
