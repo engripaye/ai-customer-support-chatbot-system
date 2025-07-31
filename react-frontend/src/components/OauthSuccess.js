@@ -23,6 +23,7 @@ export default function OAuthSuccess() {
             });
     }, []);
 
+
     if (error) return <p style={{ color: "red" }}>{error}</p>;
     if (!user) return <p>Loading user info...</p>;
 
