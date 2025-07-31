@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: spring-ai-service
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DB_URL
+        value: jdbc:mysql://<your-mysql-host>:3306/users_db
+      - key: DB_USERNAME
+        value: <your-mysql-username>
+      - key: DB_PASSWORD
+        value: <your-mysql-password>
+      - key: OPENROUTER_API_KEY
+        value: <your-openrouter-api-key>
+      - key: GOOGLE_CLIENT_ID
+        value: <your-google-client-id>
+      - key: GOOGLE_CLIENT_SECRET
+        value: <your-google-client-secret>
+      - key: MONGO_URI
+        value: mongodb+srv://<your-mongo-connection-uri>  # optional
