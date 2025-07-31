@@ -52,7 +52,7 @@ public class SecurityConfig {
         config.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type", "X-Requested-With", "X-XSRF-TOKEN"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/api/**", config);
+        source.registerCorsConfiguration("/**", config); // ✅ apply CORS to all endpoints
         return new CorsFilter(source);
     }
 }
