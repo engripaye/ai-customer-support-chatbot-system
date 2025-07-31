@@ -19,12 +19,12 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(request -> {
                     CorsConfiguration config = new CorsConfiguration();
                     config.setAllowedOrigins(List.of(
-                            "http://localhost:3000",
-                            "https://your-frontend.onrender.com" // ✅ Add Render frontend domain
+                            "http://localhost:3000", // local React
+                            "https://your-frontend.onrender.com" // deployed React
                     ));
                     config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                    config.setAllowedHeaders(List.of("*"));
-                    config.setAllowCredentials(true);
+                     config.setAllowedHeaders(List.of("*"));
+                    config.setAllowCredentials(true); // Required to allow cookies/session cross-origin
                     return config;
                 }))
                 .csrf(csrf -> csrf.disable())
