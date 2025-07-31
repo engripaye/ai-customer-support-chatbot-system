@@ -2,9 +2,12 @@ package org.engripaye.aicustomersupportchatbotdashboard.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 
 import java.util.List;
@@ -14,28 +17,21 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(request -> {
-                    CorsConfiguration config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of(
-                            "http://localhost:3000", // local React
-                            "https://your-frontend.onrender.com" // deployed React
-                    ));
-                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                     config.setAllowedHeaders(List.of("*"));
-                    config.setAllowCredentials(true); // Required to allow cookies/session cross-origin
-                    return config;
-                }))
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/public/**", "/login**", "/error**").permitAll()
-                        .requestMatchers("/api/admin").hasRole("ADMIN")
-                        .requestMatchers("/api/users/**").hasRole("USER")
-                        .anyRequest().authenticated()
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .defaultSuccessUrl("https://your-frontend.onrender.com/oauth-success", true)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/", "/error", "/static/**", "/index.html", "/oauth2/**").permitAll()
+                        .requestMatchers("/api/user/me").authenticated()
+                        .anyRequest().permitAll()
+                )
+                .oauth2Login(Customizer.withDefaults())
+                .logout(logout -> logout
+                        .logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler())
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                 );
 
         return http.build();
